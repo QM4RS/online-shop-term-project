@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}فروشگاه تستی{% endblock %}
+{% block content %}
+<header class="banner">
+  <div class="container">
+    <h1>به فروشگاه تستی خوش اومدی 👋</h1>
+    <p>همه‌چیز برای یادگیری و تست! کد تمیز، رابط زیبا، تجربهٔ سریع.</p>
+    <a href="#" id="ctaRegister" class="cta-btn">ثبت‌نام سریع</a>
+  </div>
+</header>
+
+
+<main>
+    <div class="container">
+        <section class="products">
+            {% for product in products %}
+            {% if user and user.is_admin %}
+            <div id="adminMenu" class="admin-menu">
+                <button data-action="inc">افزایش موجودی</button>
+                <button data-action="dec">کاهش موجودی</button>
+                <button data-action="del" style="color:#dc3545;">حذف محصول</button>
+            </div>
+            {% endif %}
+
+            <div class="product-card" data-id="{{ product.id }}">
+                <div class="img-wrap">
+                   <img src="{{ product.image }}" alt="{{ product.name }}" loading="lazy">
+                    <span class="stock-badge
+  {% if product.stock == 0 %}out{% elif product.stock < 5 %}low{% endif %}
+">
+  {{ product.stock }}
+</span>
+                </div>
+
+                <div class="card-body">
+                    <h3 class="prod-title">{{ product.name }}</h3>
+
+                    <div class="price-stock">
+                        <span class="price">{{ '{:,}'.format(product.price) }} تومان</span>
+                    </div>
+                </div>
+
+                <div class="overlay">
+                    <p>{{ product.description }}</p>
+                    <button class="add-btn">افزودن به سبد</button>
+                </div>
+            </div>
+
+            {% endfor %}
+        </section>
+    </div>
+
+</main>
+{% endblock %}

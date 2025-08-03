@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}سفارش‌های من{% endblock %}
+{% block content %}
+<div class="container" style="margin-top:1rem;">
+  <h2 style="text-align:center;">تاریخچه سفارش‌ها</h2>
+
+  {% if orders %}
+    {% for o in orders %}
+      <details style="margin-bottom:1rem;border:1px solid #ddd;border-radius:var(--radius);padding:.8rem;">
+        <summary>
+          سفارش #{{ o.id }} – {{ o.created_at.strftime('%Y-%m-%d %H:%M') }} – {{ "{:,}".format(o.total) }} تومان
+        </summary>
+        <table class="cart-table" style="width:100%;margin-top:.6rem;">
+          <thead><tr><th>محصول</th><th>تعداد</th><th>قیمت واحد</th></tr></thead>
+          <tbody>
+          {% for it in o.items %}
+            <tr>
+              <td>{{ it.product.name }}</td>
+              <td>{{ it.qty }}</td>
+              <td>{{ "{:,}".format(it.price) }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </details>
+    {% endfor %}
+  {% else %}
+    <p style="text-align:center;">هنوز سفارشی ثبت نکرده‌ای 🌵</p>
+  {% endif %}
+</div>
+{% endblock %}

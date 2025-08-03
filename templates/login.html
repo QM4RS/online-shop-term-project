@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}ورود{% endblock %}
+{% block content %}
+<form class="auth-form" method="post">
+    <h2>ورود</h2>
+    <label>ایمیل:<input type="email" name="email" required></label>
+    <label>رمز عبور:<input type="password" name="password" required></label>
+    <button type="submit">ورود</button>
+</form>
+{% endblock %}

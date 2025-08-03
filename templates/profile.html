@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}پروفایل{% endblock %}
+{% block content %}
+<div style="max-width:400px;margin:1rem auto;">
+    <h2>پروفایل</h2>
+    <p>موجودی: {{ user.balance }} تومان</p>
+
+    <form method="post" action="/profile/topup" style="margin-bottom:1rem;">
+        <label>افزایش موجودی (تومان):
+            <input name="amount" type="number" min="1000" step="1000" class="profile-input" required>
+        </label>
+        <button type="submit" class="profile-btn">افزایش</button>
+    </form>
+
+    <h3>اطلاعات کاربری</h3>
+    <form method="post" action="/profile/update">
+        <label>نام:<input name="fname" value="{{ user.fname or '' }}" class="profile-input"></label>
+        <label>نام خانوادگی:<input name="lname" value="{{ user.lname or '' }}" class="profile-input"></label>
+        <label>ایمیل:<input name="email" type="email" value="{{ user.email }}" class="profile-input" required></label>
+        <button type="submit" class="profile-btn">ذخیره تغییرات</button>
+    </form>
+</div>
+{% endblock %}

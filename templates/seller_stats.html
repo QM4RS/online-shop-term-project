@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}آمار فروش{% endblock %}
+{% block content %}
+<div class="container" style="margin-top:1.2rem;">
+  <h2 style="text-align:center;margin-bottom:1rem;">آمار فروش</h2>
+
+  {% if summary %}
+  <table class="cart-table" style="width:100%;max-width:700px;margin:auto;">
+    <thead><tr><th>محصول</th><th>تعداد فروخته‌شده</th><th>مبلغ کل</th></tr></thead>
+    <tbody>
+    {% for pid, name, qty, amount in summary %}
+      <tr>
+        <td>{{ name }}</td>
+        <td class="qty-cell" data-pid="{{ pid }}" style="cursor:pointer;color:var(--primary);">
+    {{ qty }}
+</td>
+
+        <td>{{ '{:,}'.format(amount) }} تومان</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <!-- ==== Buyers Modal ==== -->
+<div id="buyersOverlay" class="modal-overlay">
+  <div class="modal" style="max-width:480px;">
+    <button class="close-btn" id="buyersClose">✖</button>
+    <h3 id="buyersTitle" style="text-align:center;margin-top:0;"></h3>
+    <table class="cart-table" id="buyersTable" style="width:100%;margin-top:.6rem;">
+      <thead><tr><th>سفارش#</th><th>کاربر</th><th>تعداد</th><th>تاریخ</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+  {% else %}
+    <p style="text-align:center;">هنوز فروشی ثبت نشده 😴</p>
+  {% endif %}
+</div>
+
+<script>
+  const bOv   = document.getElementById('buyersOverlay');
+const bTbl  = document.querySelector('#buyersTable tbody');
+const bTit  = document.getElementById('buyersTitle');
+document.getElementById('buyersClose').onclick=()=>bOv.classList.remove('show');
+bOv.onclick=e=>{if(e.target===bOv) bOv.classList.remove('show');};
+
+document.querySelectorAll('.qty-cell').forEach(cell=>{
+  cell.addEventListener('click', async ()=>{
+    const pid=cell.dataset.pid;
+    bTit.textContent='… در حال بارگیری';
+    bTbl.innerHTML='';
+    bOv.classList.add('show');
+
+    const res=await fetch(`/api/seller/product/${pid}/buyers`);
+    if(!res.ok){ bTit.textContent='خطا در دریافت داده'; return; }
+    const data=await res.json();
+    if(data.length===0){ bTit.textContent='هنوز فروشی برای این محصول نیست'; return; }
+
+    bTit.textContent=`خریداران (محصول #${pid})`;
+    bTbl.innerHTML = data.map(row=>`
+      <tr>
+        <td>${row.order_id}</td>
+        <td>${row.buyer}</td>
+        <td>${row.qty}</td>
+        <td>${row.date}</td>
+      </tr>`).join('');
+  });
+});
+
+</script>
+{% endblock %}

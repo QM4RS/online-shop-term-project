@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="{% if user %}logged-in{% endif %}">
+    <nav class="topbar container">
+        {% if request.url.path != '/' %}
+            <a href="/" class="logo">🏠 فروشگاه</a>
+        {% endif %}
+        {% if user %}
+            <a href="/profile" class="user-link">{{ user.fname }} {{ user.lname }}</a>
+        <a href="/profile/orders">سفارش‌ها</a>
+
+            <a href="/logout">خروج</a>
+        {% else %}
+            <a href="#" id="navLogin">ورود</a>
+            <a href="#" id="navRegister">ثبت نام</a>
+
+        {% endif %}
+        {% if user and user.is_admin %}
+            <a href="/admin/users">کاربران</a>
+        <a href="/admin/orders">پیگیری سفارش</a>
+
+        {% endif %}
+
+        {% if user and (user.is_seller or user.is_admin) %}
+        <a href="/seller/products">محصولات من</a>
+        <a href="/seller/stats">آمار فروش</a>
+
+        {% endif %}
+
+
+    </nav>
+
+    {% block content %}{% endblock %}
+    {% if cart_count is defined and cart_count > 0 %}
+<a href="/cart" class="cart-fab">
+    🛒 <span class="badge">{{ cart_count }}</span>
+</a>
+{% endif %}
+
+<div id="toast" class="toast"></div>
+<!-- ==== Login / Register Modal ==== -->
+<div id="authOverlay" class="modal-overlay">
+  <div class="modal">
+    <button class="close-btn" id="closeAuth">✖</button>
+
+    <div id="loginPane">
+      <h2>ورود</h2>
+      <form id="loginForm" method="post" action="/login">
+        <input name="email" type="email" placeholder="ایمیل" required>
+        <input name="password" type="password" placeholder="رمز عبور" required>
+        <button type="submit">ورود</button>
+        <p class="switcher">حساب نداری؟ <a href="#" id="showReg">ثبت‌نام</a></p>
+      </form>
+    </div>
+
+    <div id="regPane" style="display:none;">
+      <h2>ثبت‌نام</h2>
+      <form id="regForm" method="post" action="/register">
+        <input name="fname" placeholder="نام">
+        <input name="lname" placeholder="نام خانوادگی">
+        <input name="email" type="email" placeholder="ایمیل" required>
+        <input name="password" type="password" placeholder="رمز عبور" required>
+        <button type="submit">ثبت‌نام</button>
+        <p class="switcher">حساب داری؟ <a href="#" id="showLogin">ورود</a></p>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- ==== Confirm Modal ==== -->
+<div id="confirmOverlay" class="modal-overlay">
+  <div class="modal">
+    <p id="confirmMsg" style="margin:0 0 1.2rem;text-align:center;"></p>
+    <div style="display:flex;gap:.8rem;justify-content:center;">
+      <button id="confirmYes" class="profile-btn">تأیید</button>
+      <button id="confirmNo"  class="profile-btn" style="background:var(--secondary);">لغو</button>
+    </div>
+  </div>
+</div>
+<!-- ==== Qty Modal ==== -->
+<div id="qtyOverlay" class="modal-overlay">
+  <div class="modal">
+    <p id="qtyMsg" style="text-align:center;margin:0 0 1rem;"></p>
+    <input id="qtyInput" type="number" value="1" min="1"
+           style="width:100%;padding:.5rem;border:1px solid #ddd;border-radius:var(--radius);margin-bottom:1rem;">
+    <div style="display:flex;gap:.8rem;justify-content:center;">
+      <button id="qtyYes" class="profile-btn">تأیید</button>
+      <button id="qtyNo"  class="profile-btn" style="background:var(--secondary);">لغو</button>
+    </div>
+  </div>
+</div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

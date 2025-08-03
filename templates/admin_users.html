@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}کاربران{% endblock %}
+{% block content %}
+<div class="admin-header">
+  <h2>مدیریت کاربران</h2>
+  <input id="uSearch" type="text" placeholder="جستجو…" class="search-box">
+</div>
+
+<table class="cart-table">
+<thead><tr><th>ID</th><th>ایمیل</th><th>نام</th><th>نقش</th><th></th></tr></thead>
+<tbody id="uTable">
+{% for u in users %}
+<tr data-id="{{ u.id }}">
+  <td>{{ u.id }}</td>
+  <td>{{ u.email }}</td>
+  <td>{{ u.fname }} {{ u.lname }}</td>
+<td>
+  <span class="role-badge
+        {% if u.is_admin %}admin
+        {% elif u.is_seller %}seller
+        {% else %}user{% endif %}">
+    {{ 'ادمین' if u.is_admin else ('فروشنده' if u.is_seller else 'کاربر') }}
+  </span>
+</td>
+
+<td>
+  {% if (not u.is_seller) and (not u.is_admin) %}
+    <button class="action-btn seller-btn">فروشنده</button>
+  {% endif %}
+  {% if not u.is_admin %}
+    <button class="action-btn promote-btn">ادمین</button>
+  {% endif %}
+  {% if not u.is_admin and u.id != user.id %}
+    <button class="action-btn deluser-btn danger">حذف</button>
+  {% endif %}
+</td>
+
+
+</tr>
+{% endfor %}
+</tbody>
+</table>
+<script>
+const rows=[...document.querySelectorAll('#uTable tr')];
+document.getElementById('uSearch').addEventListener('input',e=>{
+  const q=e.target.value.trim().toLowerCase();
+  rows.forEach(r=>{
+    const text=r.textContent.toLowerCase();
+    r.style.display = text.includes(q)?'table-row':'none';
+  });
+});
+
+document.addEventListener('click',async e=>{
+  if(e.target.classList.contains('promote-btn')){
+    if(!confirm('ارتقا به ادمین؟')) return;
+    const uid=e.target.closest('tr').dataset.id;
+    const res=await fetch(`/api/admin/users/${uid}/promote`,{method:'POST'});
+    if(res.ok) location.reload();
+  }
+  if(e.target.classList.contains('deluser-btn')){
+    const uid=e.target.closest('tr').dataset.id;
+    const ok=await showConfirm('کاربر حذف شود؟');
+    if(!ok) return;
+    const res=await fetch(`/api/admin/users/${uid}`,{method:'DELETE'});
+    if(res.ok) e.target.closest('tr').remove();
+  }
+  if(e.target.classList.contains('seller-btn')){
+  const uid = e.target.closest('tr').dataset.id;
+  const ok  = await showConfirm('ارتقا به فروشنده؟');
+  if(!ok) return;
+  const res = await fetch(`/api/admin/users/${uid}/makeseller`,{method:'POST'});
+  if(res.ok) location.reload();
+}
+
+
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}ثبت نام{% endblock %}
+{% block content %}
+<form class="auth-form" method="post">
+    <h2>ثبت نام</h2>
+    <label>نام:<input name="fname"></label>
+    <label>نام خانوادگی:<input name="lname"></label>
+    <label>ایمیل:<input type="email" name="email" required></label>
+    <label>رمز عبور:<input type="password" name="password" required></label>
+    <button type="submit">ثبت نام</button>
+</form>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}پیگیری سفارش{% endblock %}
+{% block content %}
+<div class="container" style="margin-top:1.5rem;">
+  <h2 style="text-align:center;margin-bottom:1rem;">پیگیری سفارش</h2>
+
+  <!-- فرم جستجو -->
+  <div style="display:flex;justify-content:center;gap:.6rem;margin-bottom:1.5rem;">
+    <input id="orderInput" type="number" min="1"
+           placeholder="کد سفارش..."
+           style="padding:.5rem .6rem;border:1px solid #ddd;border-radius:var(--radius);width:200px;">
+    <button id="orderBtn" class="profile-btn">نمایش</button>
+  </div>
+
+  <!-- خروجی -->
+  <div id="orderBox"></div>
+</div>
+
+<script>
+const btn   = document.getElementById('orderBtn');
+const input = document.getElementById('orderInput');
+const box   = document.getElementById('orderBox');
+
+btn.addEventListener('click', fetchOrder);
+input.addEventListener('keyup', e=>{ if(e.key==='Enter') fetchOrder(); });
+
+async function fetchOrder(){
+  const id = parseInt(input.value,10);
+  if(!id){ showToast('کد سفارش نامعتبر ❌','error');return; }
+
+  box.innerHTML = '<p>… در حال بارگیری</p>';
+  const res = await fetch(`/api/admin/order/${id}`);
+  if(!res.ok){
+    box.innerHTML='<p style="color:var(--danger);">سفارش پیدا نشد ❌</p>';
+    return;
+  }
+  const o=await res.json();
+  box.innerHTML = renderOrder(o);
+}
+
+function renderOrder(o){
+  const rows = o.items.map(it=>`
+    <tr>
+      <td>${it.product.name}</td>
+      <td>${it.qty}</td>
+      <td>${number(it.price)}</td>
+      <td>${it.seller ? it.seller.email : '—'}</td>
+    </tr>`).join('');
+  return `
+    <details open style="border:1px solid #ddd;border-radius:var(--radius);padding:.8rem;">
+      <summary>
+        سفارش #${o.id} – کاربر: ${o.user.email} – جمع: ${number(o.total)} تومان
+      </summary>
+      <table class="cart-table" style="width:100%;margin-top:.8rem;">
+        <thead><tr><th>محصول</th><th>تعداد</th><th>قیمت واحد</th><th>فروشنده</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </details>`;
+}
+
+function number(n){return n.toLocaleString('fa-IR');}
+</script>
+{% endblock %}

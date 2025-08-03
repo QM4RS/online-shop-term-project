@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+{% block title %}محصولات من{% endblock %}
+{% block content %}
+<div class="container" style="margin-top:1rem;">
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <h2 style="margin:0;">محصولات من</h2>
+    <button id="addBtn" class="profile-btn">➕ محصول جدید</button>
+  </div>
+
+  {% if products %}
+  <section class="products" id="pGrid" style="margin-top:1rem;">
+    <div id="sMenu" class="admin-menu">
+  <button data-act="inc">افزودن موجودی</button>
+  <button data-act="dec">کاهش موجودی</button>
+  <button data-act="edit">ویرایش مشخصات</button>
+  <button data-act="del" class="danger">حذف</button>
+</div>
+
+    {% for p in products %}
+     <div class="product-card{% if p.stock<5 %} low-stock{% endif %}"
+     data-id="{{ p.id }}"
+     data-price="{{ p.price }}"
+     data-desc="{{ p.description|e }}">
+
+        <div class="img-wrap">
+          <img src="{{ p.image }}" alt="{{ p.name }}" loading="lazy">
+          <span class="stock-badge{% if p.stock==0 %} out{% elif p.stock<5 %} low{% endif %}">
+            {{ p.stock }}
+          </span>
+        </div>
+        <div class="card-body">
+          <h3 class="prod-title">{{ p.name }}</h3>
+          <div class="price-stock">
+            <span class="price">{{ '{:,}'.format(p.price) }} تومان</span>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </section>
+  {% else %}
+    <p style="margin-top:2rem;text-align:center;">هنوز محصولی اضافه نکرده‌ای 🌱</p>
+  {% endif %}
+</div>
+
+<!-- ==== Add Product Modal ==== -->
+<div id="addOverlay" class="modal-overlay">
+  <div class="modal">
+    <button class="close-btn" id="addClose">✖</button>
+    <h2 style="text-align:center;">افزودن محصول</h2>
+    <form id="addForm">
+      <input name="name" placeholder="نام محصول" required>
+      <input name="price" type="number" placeholder="قیمت (تومان)" required>
+      <input name="stock" type="number" placeholder="موجودی اولیه" required>
+      <textarea name="description" placeholder="توضیحات" rows="3" style="resize:none;padding:.5rem;border:1px solid #ddd;border-radius:var(--radius);"></textarea>
+      <input name="image" type="file" accept="image/*" required>
+      <button type="submit" class="profile-btn">ثبت</button>
+    </form>
+  </div>
+</div>
+
+
+<div id="editOverlay" class="modal-overlay">
+  <div class="modal">
+    <button class="close-btn" id="editClose">✖</button>
+    <h2 style="text-align:center;">ویرایش محصول</h2>
+    <form id="editForm">
+      <input name="name" required>
+      <input name="price" type="number" required>
+      <input name="stock" type="number" required>
+      <textarea name="description" rows="3" style="resize:none;padding:.5rem;border:1px solid #ddd;border-radius:var(--radius);"></textarea>
+      <button type="submit" class="profile-btn">ذخیره</button>
+    </form>
+  </div>
+</div>
+
+
+
+<script>
+/* ---------- Modal کنترل ---------- */
+const ov=document.getElementById('addOverlay');
+document.getElementById('addBtn').onclick=()=>ov.classList.add('show');
+document.getElementById('addClose').onclick=()=>ov.classList.remove('show');
+ov.onclick=e=>{if(e.target===ov) ov.classList.remove('show');};
+
+/* ---------- ارسال فرم ---------- */
+document.getElementById('addForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const fd=new FormData(e.target);
+  const res=await fetch('/api/seller/product',{method:'POST',body:fd});
+  if(res.ok){
+    showToast('محصول اضافه شد ✅');
+    setTimeout(()=>location.reload(),800);
+  }else{
+    const err=await res.json();
+    showToast('خطا: '+err.detail,'error');
+  }
+});
+
+/* ---------- منوی راست‌کلیک ---------- */
+const menu=document.getElementById('sMenu');
+let target=null;
+
+document.querySelectorAll('.product-card').forEach(card=>{
+  card.addEventListener('contextmenu',e=>{
+    e.preventDefault();
+    target=card;
+    menu.style.top=e.pageY+'px';
+    menu.style.left=e.pageX+'px';
+    menu.style.display='block';
+  });
+});
+document.addEventListener('click',()=>menu.style.display='none');
+
+menu.addEventListener('click',async e=>{
+  const act=e.target.dataset.act;
+  if(!act) return;
+  const pid = target.dataset.id;
+  if(!pid){
+  showToast('خطای داخلی: شناسه محصول یافت نشد','error');
+  return;
+}
+
+  menu.style.display='none';
+
+  // inc / dec
+  if(act==='inc' || act==='dec'){
+    const qty = await askQuantity(act);
+    if(!qty) return;
+    const step = act==='inc'? qty : -qty;
+    const res = await fetch(`/api/seller/product/${pid}/stock?step=${step}`,{method:'POST'});
+    if(res.ok){
+      showToast('✅ موجودی به‌روزرسانی شد');
+      setTimeout(()=>location.reload(),600);
+    }
+    return;
+  }
+
+  // delete
+  if(act==='del'){
+    const ok=await showConfirm('محصول حذف شود؟');
+    if(!ok) return;
+    const res=await fetch(`/api/seller/product/${pid}`,{method:'DELETE'});
+    if(res.ok) target.remove();
+    return;
+  }
+
+  // edit
+  if(act==='edit'){
+    const ov=document.getElementById('editOverlay');
+    const form=document.getElementById('editForm');
+    // prefill
+form.name.value  = target.querySelector('.prod-title').textContent.trim();
+form.price.value = target.dataset.price;
+form.stock.value = parseInt(target.querySelector('.stock-badge').textContent,10);
+form.description.value = target.dataset.desc || '';
+
+    ov.classList.add('show');
+    document.getElementById('editClose').onclick=()=>ov.classList.remove('show');
+    ov.onclick=e=>{if(e.target===ov) ov.classList.remove('show');};
+
+    form.onsubmit = async ev=>{
+      ev.preventDefault();
+      const fd=new FormData(form);
+      const res=await fetch(`/api/seller/product/${pid}/update`,{method:'POST',body:fd});
+      if(res.ok){
+        showToast('✅ ذخیره شد');
+        setTimeout(()=>location.reload(),600);
+      }else{
+        const err=await res.json();
+        showToast('❌ '+err.detail,'error');
+      }
+    };
+  }
+});
+
+</script>
+
+
+{% endblock %}
