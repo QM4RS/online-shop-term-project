@@ -31,7 +31,7 @@
 ### 1. کلون کردن ریپو
 
 ```bash
-git clone https://github.com/yourusername/store-demo.git
+git clone https://github.com/QM4RS/online-shop-term-project
 cd store-demo
 ```
 
