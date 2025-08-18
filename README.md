@@ -32,7 +32,7 @@
 
 ```bash
 git clone https://github.com/QM4RS/online-shop-term-project
-cd store-demo
+cd online-shop-term-project
 ```
 
 ### 2. ایجاد و فعال‌سازی محیط مجازی
