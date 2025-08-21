@@ -54,6 +54,10 @@ PERSIAN_NAMES = {
     "Samsung-Galaxy-A06-64GB-4GB": "گوشی سامسونگ Galaxy A06 دو سیم‌کارت (۴ / ۶۴ GB)",
     "Samsung-Galaxy-A16-128GB-4GB": "گوشی سامسونگ Galaxy A16 نسخه ویتنام (۴ / ۱۲۸ GB)",
     "Nokia-150-2023-Iran": "گوشی کلاسیک نوکیا 150 (ورژن ۲۰۲۳، مونتاژ ایران)",
+    "Dell-Inspiron-3520-i5": "لپ‌تاپ دل Inspiron 3520 (Core i5)",
+    "Sony-WF-C500": "هدفون بی‌سیم سونی WF-C500",
+    "Persil-Liquid-3L": "مایع لباسشویی پرسیل ۳ لیتری",
+    "Shir-Dood-Pasteurized-1L": "شیر پاستوریزه دُود – ۱ لیتر",
 }
 
 # تولید فهرست نهایی با استوک تصادفی
