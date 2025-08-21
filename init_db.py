@@ -27,6 +27,10 @@ raw_products = [
     {"file_name": "Samsung-Galaxy-A06-64GB-4GB", "description": "گوشی موبایل سامسونگ Galaxy A06 دو سیم کارت ظرفیت 64 گیگابایت"},
     {"file_name": "Samsung-Galaxy-A16-128GB-4GB", "description": "گوشی موبایل سامسونگ Galaxy A16 نسخه ویتنام دو سیم کارت ظرفیت 128 گیگابایت"},
     {"file_name": "Nokia-150-2023-Iran", "description": "گوشی موبایل نوکیا مدل 150 نسخه 2023 مونتاژ ایران"},
+    {"file_name": "Dell-Inspiron-3520-i5", "description": "لپ‌تاپ دل اینسپایرون 3520 با پردازنده Core i5"},
+    {"file_name": "Sony-WF-C500", "description": "هدفون بی‌سیم سونی مدل WF-C500"},
+    {"file_name": "Persil-Liquid-3L", "description": "مایع لباسشویی پرسیل ۳ لیتری"},
+    {"file_name": "Shir-Dood-Pasteurized-1L", "description": "شیر پاستوریزه دُود ۱ لیتری"},
 ]
 
 # نگاشت نام انگلیسی به نام فارسی
