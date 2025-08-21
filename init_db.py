@@ -27,6 +27,9 @@ raw_products = [
     {"file_name": "Samsung-Galaxy-A06-64GB-4GB", "description": "گوشی موبایل سامسونگ Galaxy A06 دو سیم کارت ظرفیت 64 گیگابایت"},
     {"file_name": "Samsung-Galaxy-A16-128GB-4GB", "description": "گوشی موبایل سامسونگ Galaxy A16 نسخه ویتنام دو سیم کارت ظرفیت 128 گیگابایت"},
     {"file_name": "Nokia-150-2023-Iran", "description": "گوشی موبایل نوکیا مدل 150 نسخه 2023 مونتاژ ایران"},
+    {"file_name": "Samsung-Galaxy-A55-128GB-6GB", "description": "گوشی سامسونگ Galaxy A55 نسخه ویتنام (6 / ۱۲۸ GB)"},
+    {"file_name": "Apple-iphone-13-promax-128GB-6GB", "description": " گوشی آیفون 13 پرومکس ریجستر شده "},
+    {"file_name": "Xiaomi-redmi-note-14-128GB-8GB", "description":  "گوشی شیائومی ردمی نوت14"},
 ]
 
 # نگاشت نام انگلیسی به نام فارسی
@@ -50,6 +53,9 @@ PERSIAN_NAMES = {
     "Samsung-Galaxy-A06-64GB-4GB": "گوشی سامسونگ Galaxy A06 دو سیم‌کارت (۴ / ۶۴ GB)",
     "Samsung-Galaxy-A16-128GB-4GB": "گوشی سامسونگ Galaxy A16 نسخه ویتنام (۴ / ۱۲۸ GB)",
     "Nokia-150-2023-Iran": "گوشی کلاسیک نوکیا 150 (ورژن ۲۰۲۳، مونتاژ ایران)",
+    "Samsung-Galaxy-A55-128GB-6GB": "گوشی سامسونگ Galaxy A55 نسخه ویتنام (6 / ۱۲۸ GB)",
+    "Apple-iphone-13-promax-128GB-6GB": " گوشی آیفون 13 پرومکس ریجستر شده (6 / ۱۲۸ GB)"و
+    "Xiaomi-redmi-note-14-128GB-8GB": "گوشی شیائومی ردمی نوت14 (8 / ۱۲۸ GB)"
 }
 
 # تولید فهرست نهایی با استوک تصادفی
