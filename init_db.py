@@ -31,6 +31,11 @@ raw_products = [
     {"file_name": "Sony-WF-C500", "description": "هدفون بی‌سیم سونی مدل WF-C500"},
     {"file_name": "Persil-Liquid-3L", "description": "مایع لباسشویی پرسیل ۳ لیتری"},
     {"file_name": "Shir-Dood-Pasteurized-1L", "description": "شیر پاستوریزه دُود ۱ لیتری"},
+    {"file_name": "Samsung-Galaxy-A55-128GB-6GB", "description": "گوشی سامسونگ Galaxy A55 نسخه ویتنام (6 / ۱۲۸ GB)"},
+    {"file_name": "Apple-iphone-13-promax-128GB-6GB", "description": " گوشی آیفون 13 پرومکس ریجستر شده "},
+    {"file_name": "Xiaomi-redmi-note-14-128GB-8GB", "description":  "گوشی شیائومی ردمی نوت14"},
+    {"file_name": "Xiaomi-redmi-note-14-128GB-8GB", "description":  "هدفون بلوتوثی انکرمدل مناسب بازی کردن A3946 "},
+    {"file_name": "ِDoll-Labobo", "description":  "عروسک لبوبو در انواع رنگ ها (قد = 18سانتی متر)"},
 ]
 
 # نگاشت نام انگلیسی به نام فارسی
@@ -58,6 +63,11 @@ PERSIAN_NAMES = {
     "Sony-WF-C500": "هدفون بی‌سیم سونی WF-C500",
     "Persil-Liquid-3L": "مایع لباسشویی پرسیل ۳ لیتری",
     "Shir-Dood-Pasteurized-1L": "شیر پاستوریزه دُود – ۱ لیتر",
+    "Samsung-Galaxy-A55-128GB-6GB": "گوشی سامسونگ Galaxy A55 نسخه ویتنام (6 / ۱۲۸ GB)",
+    "Apple-iphone-13-promax-128GB-6GB": " گوشی آیفون 13 پرومکس ریجستر شده (6 / ۱۲۸ GB)"و
+    "Xiaomi-redmi-note-14-128GB-8GB": "گوشی شیائومی ردمی نوت14 (8 / ۱۲۸ GB)",
+    "Sound-core-R50i-A3949": "هدفون بلوتوثی انکرمدل A3946",
+    "ِDoll-Labobo": "عروسک لبوبو (18سانتی متر)",
 }
 
 # تولید فهرست نهایی با استوک تصادفی
