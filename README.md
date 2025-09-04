@@ -148,7 +148,11 @@ http://127.0.0.1:8000
 
 ## 🧪 اسکرین‌شات‌ها
 
-> تصاویر رابط کاربری به زودی در این بخش قرار خواهد گرفت ✅
+![Home Page](/screenshots/home_light.png)
+![Orders Light Mode](/screenshots/orders_light.png)
+![Orders Dark Mode](/screenshots/orders_dark.png)
+![Products Light Mode](/screenshots/products_light.png)
+![Products Dark Mode](/screenshots/products_dark.png)
 
 ---
 
