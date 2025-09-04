@@ -64,7 +64,7 @@ PERSIAN_NAMES = {
     "Persil-Liquid-3L": "مایع لباسشویی پرسیل ۳ لیتری",
     "Shir-Dood-Pasteurized-1L": "شیر پاستوریزه دُود – ۱ لیتر",
     "Samsung-Galaxy-A55-128GB-6GB": "گوشی سامسونگ Galaxy A55 نسخه ویتنام (6 / ۱۲۸ GB)",
-    "Apple-iphone-13-promax-128GB-6GB": " گوشی آیفون 13 پرومکس ریجستر شده (6 / ۱۲۸ GB)"و
+    "Apple-iphone-13-promax-128GB-6GB": " گوشی آیفون 13 پرومکس ریجستر شده (6 / ۱۲۸ GB)",
     "Xiaomi-redmi-note-14-128GB-8GB": "گوشی شیائومی ردمی نوت14 (8 / ۱۲۸ GB)",
     "Sound-core-R50i-A3949": "هدفون بلوتوثی انکرمدل A3946",
     "ِDoll-Labobo": "عروسک لبوبو (18سانتی متر)",
